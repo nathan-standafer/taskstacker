@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TaskDataService from '../service/TaskDataService';
+import moment from 'moment'
 
-//var INSTRUCTOR = 'in28minutes';
 
 class ListTasksComponent extends Component {
 
@@ -13,6 +13,7 @@ class ListTasksComponent extends Component {
         }
 
         this.refreshTasks = this.refreshTasks.bind(this)
+        this.addTaskClicked = this.addTaskClicked.bind(this)
 
     }
     
@@ -31,6 +32,10 @@ class ListTasksComponent extends Component {
 
     }
 
+    addTaskClicked() {
+        this.props.history.push(`/tasks/-1`)
+    }
+
     render(props) {
         return (
             <div className="container">
@@ -42,21 +47,31 @@ class ListTasksComponent extends Component {
                                 <th>taskName</th>
                                 <th>durationHours</th>
                                 <th>startDate</th>
+                                <th>dueDate</th>
+                                <th>managementImportance</th>
+                                <th>businessImportance</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 this.state.tasks.map(
                                     (task) => 
-                                        <tr key={task.taskName}>
+                                        <tr key={task.taskId}>
+                                            <td>{task.taskId}</td>
                                             <td>{task.taskName}</td>
                                             <td>{task.durationHours}</td>
-                                            <td>{task.startDate}</td>
+                                            <td>{moment(task.startDate).format('MMM Do YYYY')}</td>
+                                            <td>{moment(task.dueDate).format('MMM Do YYYY')}</td>
+                                            <td>{task.managementImportance}</td>
+                                            <td>{task.businessImportance}</td>
                                         </tr>
                                 )
                             }
                         </tbody>
                     </table>
+                </div>
+                <div className="row">
+                    <button className="btn btn-success" onClick={this.addTaskClicked}>Add</button>
                 </div>
             </div>
         )

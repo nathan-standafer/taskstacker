@@ -10,10 +10,13 @@ class TaskDataService {
 
     retrieveAllTasks() {
         var return_value = axios.get(`${Constants.TASK_API_URL}/tasks`);
-        console.log("*****************" + return_value);
         return return_value;
     }
-
+    
+    retrieveTask(id){
+        var return_value = axios.get(`${Constants.TASK_API_URL}/tasks/` + id);
+        return return_value;
+    }
 
 
 }

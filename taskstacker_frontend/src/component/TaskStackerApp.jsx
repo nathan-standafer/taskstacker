@@ -11,8 +11,9 @@ class TaskStackerApp extends Component {
                 <>
                     <h1>TaskStackerApp</h1>
                     <Switch>
-                        <Route path="/" exact component={TaskComponent} />
+                        <Route path="/" exact component={ListTasksComponent} />
                         <Route path="/tasks" exact component={ListTasksComponent} />
+                        <Route path="/tasks/:id" component={TaskComponent} />
                     </Switch>
                 </>
             </Router>

@@ -9,7 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class Task
 {
-	private @Id @GeneratedValue Long taskId;
+	@Id @GeneratedValue private  Long taskId;
 	private String taskName;
 	private Integer durationHours;
 	private Float percentComplete;

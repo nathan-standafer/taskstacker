@@ -14,7 +14,8 @@ class ListTasksComponent extends Component {
 
         this.refreshTasks = this.refreshTasks.bind(this)
         this.addTaskClicked = this.addTaskClicked.bind(this)
-
+        this.updateTaskClicked = this.updateTaskClicked.bind(this)
+        this.deleteTaskClicked = this.deleteTaskClicked.bind(this)
     }
     
     componentDidMount() {
@@ -26,10 +27,22 @@ class ListTasksComponent extends Component {
             .then(
                 response => {
                     console.log("All tasks response" + response.data._embedded.tasks);
-                    this.setState({tasks: response.data._embedded.tasks})
+                    this.setState({tasks: response.data._embedded.tasks});
                 }
             )
 
+    }
+
+    updateTaskClicked(taskId) {
+        this.props.history.push("/tasks/" + taskId);
+    }
+
+    deleteTaskClicked(taskId) {
+        TaskDataService.deleteTask(taskId)
+            .then(() => {
+                this.props.history.push('/tasks');
+                this.refreshTasks();
+            })
     }
 
     addTaskClicked() {
@@ -44,6 +57,7 @@ class ListTasksComponent extends Component {
                     <table className="table">
                         <thead>
                             <tr>
+                                <th>taskId</th>
                                 <th>taskName</th>
                                 <th>durationHours</th>
                                 <th>startDate</th>
@@ -64,6 +78,8 @@ class ListTasksComponent extends Component {
                                             <td>{moment(task.dueDate).format('MMM Do YYYY')}</td>
                                             <td>{task.managementImportance}</td>
                                             <td>{task.businessImportance}</td>
+                                            <td><button className="btn btn-success" onClick={() => this.updateTaskClicked(task.taskId)}>Update</button></td>
+                                            <td><button className="btn btn-warning" onClick={() => this.deleteTaskClicked(task.taskId)}>Delete</button></td>
                                         </tr>
                                 )
                             }

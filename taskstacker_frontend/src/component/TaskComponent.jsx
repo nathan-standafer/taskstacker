@@ -13,6 +13,8 @@ class TaskComponent extends Component {
             task: {}
         }
 
+        this.onSubmit = this.onSubmit.bind(this)
+
     }
 
     componentDidMount() {
@@ -26,6 +28,26 @@ class TaskComponent extends Component {
                 taskName: response.data.taskName,
                 task: response.data
             }))
+    }
+
+    onSubmit(values) {
+        let task = {
+            taskId: this.state.id,
+            taskName: values.taskName,
+            durationHours: values.durationHours,
+            startDate: values.startDate,
+            dueDate: values.dueDate,
+            managementImportance: values.managementImportance,
+            businessImportance: values.businessImportance,
+        }
+
+        if (this.state.id === -1) {
+            TaskDataService.createTask(task)
+                .then(() => this.props.history.push('/tasks'))
+        } else {
+            TaskDataService.updateTask(task)
+                .then(() => this.props.history.push('/tasks'))
+        }
     }
 
     render() {
@@ -44,7 +66,7 @@ class TaskComponent extends Component {
                 <div classname="container">
                     <Formik
                         initialValues={{id, taskName, durationHours, startDate, dueDate, managementImportance, businessImportance}}
-                        // onSubmit={this.onSubmit}
+                        onSubmit={this.onSubmit}
                         validateOnChange={false}
                         validateOnBlur={false}
                         // validate={this.validate}
@@ -59,27 +81,27 @@ class TaskComponent extends Component {
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>TaskName</label>
-                                        <Field className="form-control" type="text" name="task.taskName" disabled />
+                                        <Field className="form-control" type="text" name="taskName" />
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>durationHours</label>
-                                        <Field className="form-control" type="text" name="durationHours" disabled />
+                                        <Field className="form-control" type="text" name="durationHours" />
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label>durationHours</label>
-                                        <Field className="form-control" type="text" name="startDate" disabled />
+                                        <label>startDate</label>
+                                        <Field className="form-control" type="text" name="startDate" />
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label>durationHours</label>
-                                        <Field className="form-control" type="text" name="dueDate" disabled />
+                                        <label>dueDate</label>
+                                        <Field className="form-control" type="text" name="dueDate" />
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label>durationHours</label>
-                                        <Field className="form-control" type="text" name="managementImportance" disabled />
+                                        <label>managementImportance</label>
+                                        <Field className="form-control" type="text" name="managementImportance" />
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label>durationHours</label>
-                                        <Field className="form-control" type="text" name="businessImportance" disabled />
+                                        <label>businessImportance</label>
+                                        <Field className="form-control" type="text" name="businessImportance" />
                                     </fieldset>
                                     <button className="btn btn-success" type="submit">Save</button>
                                 </Form>

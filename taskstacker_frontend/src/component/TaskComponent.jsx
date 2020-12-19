@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import TaskDataService from '../service/TaskDataService'
+import PropDropdown from './PrioDropdown'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 
@@ -14,6 +15,8 @@ class TaskComponent extends Component {
         }
 
         this.onSubmit = this.onSubmit.bind(this)
+        this.handleManagementImportance = this.handleManagementImportance.bind(this)
+        this.handleBusinessImportance = this.handleBusinessImportance.bind(this)
 
     }
 
@@ -50,14 +53,22 @@ class TaskComponent extends Component {
         }
     }
 
+    handleManagementImportance = (prio) => {
+        //let id = this.state.id
+        let task = this.state.task;
+        task.managementImportance = parseInt(prio)
+        this.setState({task})
+    }
+
+    handleBusinessImportance = (prio) => {
+        //let id = this.state.id
+        let task = this.state.task;
+        task.businessImportance = parseInt(prio)
+        this.setState({task})
+    }
+
     render() {
         let { id, task } = this.state
-        let taskName = task.taskName
-        let durationHours = task.durationHours
-        let startDate = task.startDate
-        let dueDate = task.dueDate
-        let managementImportance = task.managementImportance
-        let businessImportance = task.businessImportance
 
         return (
             <div>
@@ -65,7 +76,13 @@ class TaskComponent extends Component {
 
                 <div classname="container">
                     <Formik
-                        initialValues={{id, taskName, durationHours, startDate, dueDate, managementImportance, businessImportance}}
+                        initialValues={{id: id, 
+                                        taskName:task.taskName, 
+                                        durationHours: task.durationHours, 
+                                        startDate: task.startDate, 
+                                        dueDate: task.dueDate, 
+                                        managementImportance: task.managementImportance, 
+                                        businessImportance: task.businessImportance}}
                         onSubmit={this.onSubmit}
                         validateOnChange={false}
                         validateOnBlur={false}
@@ -97,12 +114,19 @@ class TaskComponent extends Component {
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>managementImportance</label>
-                                        <Field className="form-control" type="text" name="managementImportance" />
+                                        <fieldset className="form-inline">
+                                            <Field className="form-control" type="text" name="managementImportance" />
+                                            <PropDropdown onSelectPrio={this.handleManagementImportance}/>
+                                        </fieldset>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>businessImportance</label>
-                                        <Field className="form-control" type="text" name="businessImportance" />
+                                        <fieldset className="form-inline">
+                                            <Field className="form-control" type="text" name="businessImportance" />
+                                            <PropDropdown onSelectPrio={this.handleBusinessImportance} style="display: inline-block"/>
+                                        </fieldset>
                                     </fieldset>
+
                                     <button className="btn btn-success" type="submit">Save</button>
                                 </Form>
                             )

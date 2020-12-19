@@ -1,4 +1,4 @@
-import React, { Component,   useState } from 'react'
+import React, { Component } from 'react'  //useState
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 
 
@@ -7,6 +7,7 @@ class PrioDropdown extends Component
 
     constructor(props) {
         super(props);
+        
         this.state = {
             prio: 0
         }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import TaskDataService from '../service/TaskDataService'
-import PropDropdown from './PrioDropdown'
+import PrioDropdown from './PrioDropdown'
+import DateTimePicker from  './DateTimePicker'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-
 
 class TaskComponent extends Component {
 
@@ -17,7 +17,8 @@ class TaskComponent extends Component {
         this.onSubmit = this.onSubmit.bind(this)
         this.handleManagementImportance = this.handleManagementImportance.bind(this)
         this.handleBusinessImportance = this.handleBusinessImportance.bind(this)
-
+        this.handleStartDate = this.handleStartDate.bind(this)
+        this.handleDueDate = this.handleDueDate.bind(this)
     }
 
     componentDidMount() {
@@ -67,6 +68,18 @@ class TaskComponent extends Component {
         this.setState({task})
     }
 
+    handleStartDate = (dt) => {
+        let task = this.state.task;
+        task.startDate = dt.toISOString();
+        this.setState({task})
+    }
+
+    handleDueDate = (dt) => {
+        let task = this.state.task;
+        task.dueDate = dt.toISOString();
+        this.setState({task})
+    }
+
     render() {
         let { id, task } = this.state
 
@@ -106,24 +119,24 @@ class TaskComponent extends Component {
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>startDate</label>
-                                        <Field className="form-control" type="text" name="startDate" />
+                                        <DateTimePicker zuluDate={task.startDate} onSelectDate={this.handleStartDate}/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>dueDate</label>
-                                        <Field className="form-control" type="text" name="dueDate" />
+                                        <DateTimePicker zuluDate={task.dueDate} onSelectDate={this.handleDueDate}/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>managementImportance</label>
                                         <fieldset className="form-inline">
                                             <Field className="form-control" type="text" name="managementImportance" />
-                                            <PropDropdown onSelectPrio={this.handleManagementImportance}/>
+                                            <PrioDropdown onSelectPrio={this.handleManagementImportance}/>
                                         </fieldset>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>businessImportance</label>
                                         <fieldset className="form-inline">
                                             <Field className="form-control" type="text" name="businessImportance" />
-                                            <PropDropdown onSelectPrio={this.handleBusinessImportance} style="display: inline-block"/>
+                                            <PrioDropdown onSelectPrio={this.handleBusinessImportance} style="display: inline-block"/>
                                         </fieldset>
                                     </fieldset>
 
@@ -132,13 +145,10 @@ class TaskComponent extends Component {
                             )
                         }
                     </Formik>
-
                 </div>
-
             </div>
         )
     }
-
 }
 
 export default TaskComponent

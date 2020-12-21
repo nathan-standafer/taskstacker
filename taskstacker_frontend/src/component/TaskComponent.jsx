@@ -10,15 +10,18 @@ class TaskComponent extends Component {
         super(props);
 
         this.state = {
-            id: this.props.match.params.id,
+            id: parseInt(this.props.match.params.id),
             task: {}
         }
 
-        this.onSubmit = this.onSubmit.bind(this)
+        this.handleTaskNameChange = this.handleTaskNameChange.bind(this)
+        this.handleDurationHoursChange = this.handleDurationHoursChange.bind(this)
         this.handleManagementImportance = this.handleManagementImportance.bind(this)
         this.handleBusinessImportance = this.handleBusinessImportance.bind(this)
         this.handleStartDate = this.handleStartDate.bind(this)
         this.handleDueDate = this.handleDueDate.bind(this)
+
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
     componentDidMount() {
@@ -30,6 +33,12 @@ class TaskComponent extends Component {
             .then(response => this.setState({
                 id: response.data.taskId,
                 taskName: response.data.taskName,
+                durationHours: response.data.durationHours,
+                startDate: response.data.startDate,
+                dueDate: response.data.dueDate,
+                managementImportance: response.data.managementImportance,
+                businessImportance: response.data.businessImportance,
+
                 task: response.data
             }))
     }
@@ -42,8 +51,11 @@ class TaskComponent extends Component {
             startDate: values.startDate,
             dueDate: values.dueDate,
             managementImportance: values.managementImportance,
-            businessImportance: values.businessImportance,
+            businessImportance: values.businessImportance
         }
+
+        //console.log("submitting task to DB values: " + JSON.stringify(values));
+        //console.log("submitting task to DB task: " + JSON.stringify(task));
 
         if (this.state.id === -1) {
             TaskDataService.createTask(task)
@@ -54,30 +66,40 @@ class TaskComponent extends Component {
         }
     }
 
+    handleTaskNameChange = (val) => {
+        let taskName = this.state.taskName;
+        taskName = val.target.value
+        this.setState({taskName})
+    }
+
+    handleDurationHoursChange = (val) => {
+        let durationHours = this.state.durationHours;
+        durationHours = val.target.value
+        this.setState({durationHours})
+    }
+
     handleManagementImportance = (prio) => {
-        //let id = this.state.id
-        let task = this.state.task;
-        task.managementImportance = parseInt(prio)
-        this.setState({task})
+        let managementImportance = this.state.managementImportance;
+        managementImportance = parseInt(prio)
+        this.setState({managementImportance})
     }
 
     handleBusinessImportance = (prio) => {
-        //let id = this.state.id
-        let task = this.state.task;
-        task.businessImportance = parseInt(prio)
-        this.setState({task})
+        let businessImportance = this.state.businessImportance;
+        businessImportance = parseInt(prio)
+        this.setState({businessImportance})
     }
 
     handleStartDate = (dt) => {
-        let task = this.state.task;
-        task.startDate = dt.toISOString();
-        this.setState({task})
+        let startDate = this.state.startDate;
+        startDate = dt.toISOString();
+        this.setState({startDate})
     }
 
     handleDueDate = (dt) => {
-        let task = this.state.task;
-        task.dueDate = dt.toISOString();
-        this.setState({task})
+        let dueDate = this.state.dueDate;
+        dueDate = dt.toISOString();
+        this.setState({dueDate})
     }
 
     render() {
@@ -90,12 +112,12 @@ class TaskComponent extends Component {
                 <div classname="container">
                     <Formik
                         initialValues={{id: id, 
-                                        taskName:task.taskName, 
-                                        durationHours: task.durationHours, 
-                                        startDate: task.startDate, 
-                                        dueDate: task.dueDate, 
-                                        managementImportance: task.managementImportance, 
-                                        businessImportance: task.businessImportance}}
+                                        taskName:this.state.taskName, 
+                                        durationHours: this.state.durationHours, 
+                                        startDate: this.state.startDate, 
+                                        dueDate: this.state.dueDate, 
+                                        managementImportance: this.state.managementImportance, 
+                                        businessImportance: this.state.businessImportance}}
                         onSubmit={this.onSubmit}
                         validateOnChange={false}
                         validateOnBlur={false}
@@ -111,19 +133,19 @@ class TaskComponent extends Component {
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>TaskName</label>
-                                        <Field className="form-control" type="text" name="taskName" />
+                                        <Field className="form-control" type="text" name="taskName" onChange={this.handleTaskNameChange}/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>durationHours</label>
-                                        <Field className="form-control" type="text" name="durationHours" />
+                                        <Field className="form-control" type="text" name="durationHours" onChange={this.handleDurationHoursChange}/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>startDate</label>
-                                        <DateTimePicker zuluDate={task.startDate} onSelectDate={this.handleStartDate}/>
+                                        <DateTimePicker zuluDate={this.state.startDate} onSelectDate={this.handleStartDate}/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>dueDate</label>
-                                        <DateTimePicker zuluDate={task.dueDate} onSelectDate={this.handleDueDate}/>
+                                        <DateTimePicker zuluDate={this.state.dueDate} onSelectDate={this.handleDueDate}/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>managementImportance</label>

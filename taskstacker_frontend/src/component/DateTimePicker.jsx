@@ -36,10 +36,8 @@ class DateTimePicker extends Component
         return (
             <div>
                 <DatePicker
-                    //key={this.props.zuluDate}
-                    //onChange={onChange}
+                    onChange={this.handleDateSelect}
                     onSelect={this.handleDateSelect}
-                    //selected={this.state.startDate}
                     selected={thisDate}
                     showTimeSelect
                     dateFormat="MMMM d, yyyy h:mm aa"

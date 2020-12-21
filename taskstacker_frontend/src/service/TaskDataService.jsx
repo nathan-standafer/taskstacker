@@ -9,7 +9,9 @@ class TaskDataService {
     }
 
     retrieveAllTasks() {
-        var return_value = axios.get(`${Constants.TASK_API_URL}/tasks`);
+        //http://localhost:8080/api/tasks/search/findTasksByPrio
+        //TODO - Need a method to not return completed tasks.
+        var return_value = axios.get(`${Constants.TASK_API_URL}/tasks/search/findTasksByPrio`);
         return return_value;
     }
     

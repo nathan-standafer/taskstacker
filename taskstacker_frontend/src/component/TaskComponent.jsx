@@ -26,7 +26,14 @@ class TaskComponent extends Component {
 
     componentDidMount() {
         if (this.state.id === -1) {
-            return
+
+            let initDate = (new Date()).toISOString();
+            this.setState({
+                startDate: initDate,
+                dueDate: initDate
+            });
+
+            return;
         }
 
         TaskDataService.retrieveTask(this.state.id)

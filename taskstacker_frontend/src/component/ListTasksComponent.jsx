@@ -40,9 +40,9 @@ class ListTasksComponent extends Component {
             let last = end.clone().startOf('week'); // start of last week
             let days = last.diff(first,'days') * 5 / 7; // this will always multiply of 7
             let wfirst = first.day() - start.day(); // check first week
-            if(start.day() == 0) --wfirst; // -1 if start with sunday 
+            if(start.day() === 0) --wfirst; // -1 if start with sunday 
             let wlast = end.day() - last.day(); // check last week
-            if(end.day() == 6) --wlast; // -1 if end with saturday
+            if(end.day() === 6) --wlast; // -1 if end with saturday
             return wfirst + Math.floor(days) + wlast; // get the total
           } //              ^ EDIT: if days count less than 7 so no decimal point
 
@@ -51,17 +51,17 @@ class ListTasksComponent extends Component {
         let work_hours_1 = work_days_1 * 8.0;
         let work_hours_2 = work_days_2 * 8.0;
 
-        let percent_of_remaining_time_1 = 100.0 * parseFloat(task1.durationHours) / work_hours_1;
-        let percent_of_remaining_time_2 = 100.0 * parseFloat(task2.durationHours) / work_hours_2;
+        let percent_of_remaining_time_1 = 100.0 * (1-task1.percentComplete/100.0)*parseFloat(task1.durationHours) / work_hours_1;
+        let percent_of_remaining_time_2 = 100.0 * (1-task2.percentComplete/100.0)*parseFloat(task2.durationHours) / work_hours_2;
 
-        //console.log("percent_of_remaining_time_1: " + percent_of_remaining_time_1);
-        //console.log("percent_of_remaining_time_2: " + percent_of_remaining_time_2);
+        //console.log("percent_of_remaining_time_" + task1.taskId + ": " + percent_of_remaining_time_1);
+        //console.log("percent_of_remaining_time_" + task2.taskId + ": " + percent_of_remaining_time_2);
 
         let weight_task_1 = percent_of_remaining_time_1 + parseFloat(task1.managementImportance) + parseFloat(task1.businessImportance);
         let weight_task_2 = percent_of_remaining_time_2 + parseFloat(task2.managementImportance) + parseFloat(task2.businessImportance);
 
-        console.log("weight_task_" + task1.taskId + ": " + weight_task_1);
-        console.log("weight_task_" + task2.taskId + ": " + weight_task_2);
+        //console.log("weight_task_" + task1.taskId + ": " + weight_task_1);
+        //console.log("weight_task_" + task2.taskId + ": " + weight_task_2);
 
         if(weight_task_1 > weight_task_2)
         {
@@ -100,6 +100,7 @@ class ListTasksComponent extends Component {
                             <th>Task Id</th>
                             <th>Task Name</th>
                             <th>Duration</th>
+                            <th>% Complete</th>
                             <th>Start Date</th>
                             <th>Due Date</th>
                             <th>Perceived Importance</th>
@@ -115,7 +116,8 @@ class ListTasksComponent extends Component {
                                     <tr key={task.taskId}>
                                         <td>{task.taskId}</td>
                                         <td>{task.taskName}</td>
-                                        <td>{task.durationHours}</td>
+                                        <td>{task.durationHours} Hours</td>
+                                        <td>{task.percentComplete}%</td>
                                         <td>{moment(task.startDate).format('MMM Do YYYY h:mm a')}</td>
                                         <td>{moment(task.dueDate).format('MMM Do YYYY h:mm a')}</td>
                                         <td>{task.managementImportance}</td>

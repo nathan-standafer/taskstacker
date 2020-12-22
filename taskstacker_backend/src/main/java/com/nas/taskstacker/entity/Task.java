@@ -11,8 +11,8 @@ public class Task
 {
 	@Id @GeneratedValue private  Long taskId;
 	private String taskName;
-	private Integer durationHours;
-	private Float percentComplete;
+	private Float durationHours;
+	private Integer percentComplete;
 	private Timestamp startDate;
 	private Timestamp dueDate;
 	private Integer managementImportance;
@@ -23,7 +23,7 @@ public class Task
 		
 	}
 	
-	public Task(String taskName, Integer durationHours, Float percentComplete, Timestamp startDate,
+	public Task(String taskName, Float durationHours, Integer percentComplete, Timestamp startDate,
 			Timestamp dueDate, Integer managementImportance, Integer businessImportance) {
 		super();
 		this.taskName = taskName;
@@ -46,16 +46,16 @@ public class Task
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
-	public Integer getDurationHours() {
+	public Float getDurationHours() {
 		return durationHours;
 	}
-	public void setDurationHours(Integer durationHours) {
+	public void setDurationHours(Float durationHours) {
 		this.durationHours = durationHours;
 	}
-	public Float getPercentComplete() {
+	public Integer getPercentComplete() {
 		return percentComplete;
 	}
-	public void setPercentComplete(Float percentComplete) {
+	public void setPercentComplete(Integer percentComplete) {
 		this.percentComplete = percentComplete;
 	}
 	public Timestamp getStartDate() {

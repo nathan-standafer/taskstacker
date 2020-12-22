@@ -20,6 +20,7 @@ class TaskComponent extends Component {
         this.handleBusinessImportance = this.handleBusinessImportance.bind(this)
         this.handleStartDate = this.handleStartDate.bind(this)
         this.handleDueDate = this.handleDueDate.bind(this)
+        this.validate = this.validate.bind(this)
 
         this.onSubmit = this.onSubmit.bind(this)
     }
@@ -41,6 +42,7 @@ class TaskComponent extends Component {
                 id: response.data.taskId,
                 taskName: response.data.taskName,
                 durationHours: response.data.durationHours,
+                percentComplete: response.data.percentComplete,
                 startDate: response.data.startDate,
                 dueDate: response.data.dueDate,
                 managementImportance: response.data.managementImportance,
@@ -55,6 +57,7 @@ class TaskComponent extends Component {
             taskId: this.state.id,
             taskName: values.taskName,
             durationHours: values.durationHours,
+            percentComplete: values.percentComplete,
             startDate: values.startDate,
             dueDate: values.dueDate,
             managementImportance: values.managementImportance,
@@ -85,6 +88,12 @@ class TaskComponent extends Component {
         this.setState({durationHours})
     }
 
+    handlePercentCompleteChange = (val) => {
+        let percentComplete = this.state.percentComplete;
+        percentComplete = val.target.value
+        this.setState({percentComplete})
+    }
+
     handleManagementImportance = (prio) => {
         let managementImportance = this.state.managementImportance;
         managementImportance = parseInt(prio)
@@ -109,18 +118,47 @@ class TaskComponent extends Component {
         this.setState({dueDate})
     }
 
-    render() {
-        let { id, task } = this.state
+    validate(values) {
+        let errors = {}
 
+        let validateInteger = (testVal, minVal, maxVal) => {
+            if (testVal === null || testVal === undefined) {return false;}
+            if (!Number.isInteger(parseFloat(testVal))) {return false;}
+            if (parseInt(testVal) < minVal || parseInt(testVal) > maxVal) {return false;}
+            return true;
+        }
+
+        if (!values.taskName) {
+            errors.taskName = 'Enter a Task Name'
+        }
+        else if (!values.durationHours || isNaN(values.durationHours)) {
+            errors.durationHours = 'Enter a Number for Duration Hours'
+        }
+        else if (!validateInteger(values.percentComplete, 0, 100)) {
+            errors.percentComplete = 'Enter a Number between 0 and 100 for Percent Complete'
+        }
+        else if (!validateInteger(values.managementImportance, 0, 10)) {
+            errors.managementImportance = 'Enter an Integer between 0 and 10 for Perceived Importance'
+        }
+        else if (!validateInteger(values.businessImportance, 0, 10)) {
+            errors.businessImportance = 'Enter an Integer between 0 and 10 for Business Importance'
+        }
+
+        //console.log("errors: " + JSON.stringify(errors));
+        return errors
+    }
+
+    render() {
         return (
             <div>
                 <h3>Task</h3>
 
                 <div classname="container">
                     <Formik
-                        initialValues={{id: id, 
+                        initialValues={{id: this.state.id, 
                                         taskName:this.state.taskName, 
                                         durationHours: this.state.durationHours, 
+                                        percentComplete: this.state.percentComplete,
                                         startDate: this.state.startDate, 
                                         dueDate: this.state.dueDate, 
                                         managementImportance: this.state.managementImportance, 
@@ -128,7 +166,7 @@ class TaskComponent extends Component {
                         onSubmit={this.onSubmit}
                         validateOnChange={false}
                         validateOnBlur={false}
-                        // validate={this.validate}
+                        validate={this.validate}
                         enableReinitialize={true}
                     >
                         {
@@ -141,32 +179,41 @@ class TaskComponent extends Component {
                                     <fieldset className="form-group">
                                         <label>TaskName</label>
                                         <Field className="form-control" type="text" name="taskName" onChange={this.handleTaskNameChange}/>
+                                        <ErrorMessage name="taskName" component="div" className="alert alert-warning" />
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>durationHours</label>
                                         <Field className="form-control" type="text" name="durationHours" onChange={this.handleDurationHoursChange}/>
+                                        <ErrorMessage name="durationHours" component="div" className="alert alert-warning" />
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label>startDate</label>
+                                        <label>Percent Complete</label>
+                                        <Field className="form-control" type="text" name="percentComplete" onChange={this.handlePercentCompleteChange}/>
+                                        <ErrorMessage name="percentComplete" component="div" className="alert alert-warning" />
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label>Start Date</label>
                                         <DateTimePicker zuluDate={this.state.startDate} onSelectDate={this.handleStartDate}/>
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label>dueDate</label>
+                                        <label>Due Date</label>
                                         <DateTimePicker zuluDate={this.state.dueDate} onSelectDate={this.handleDueDate}/>
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label>managementImportance</label>
+                                        <label>Perceived Importance</label>
                                         <fieldset className="form-inline">
                                             <Field className="form-control" type="text" name="managementImportance" />
                                             <PrioDropdown onSelectPrio={this.handleManagementImportance}/>
                                         </fieldset>
+                                        <ErrorMessage name="managementImportance" component="div" className="alert alert-warning" />
                                     </fieldset>
                                     <fieldset className="form-group">
-                                        <label>businessImportance</label>
+                                        <label>Business Importance</label>
                                         <fieldset className="form-inline">
                                             <Field className="form-control" type="text" name="businessImportance" />
                                             <PrioDropdown onSelectPrio={this.handleBusinessImportance} style="display: inline-block"/>
                                         </fieldset>
+                                        <ErrorMessage name="businessImportance" component="div" className="alert alert-warning" />
                                     </fieldset>
 
                                     <button className="btn btn-success" type="submit">Save</button>

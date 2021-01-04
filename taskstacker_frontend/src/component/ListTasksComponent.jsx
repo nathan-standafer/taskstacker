@@ -57,8 +57,8 @@ class ListTasksComponent extends Component {
         //console.log("percent_of_remaining_time_" + task1.taskId + ": " + percent_of_remaining_time_1);
         //console.log("percent_of_remaining_time_" + task2.taskId + ": " + percent_of_remaining_time_2);
 
-        let weight_task_1 = percent_of_remaining_time_1 + parseFloat(task1.managementImportance) + parseFloat(task1.businessImportance);
-        let weight_task_2 = percent_of_remaining_time_2 + parseFloat(task2.managementImportance) + parseFloat(task2.businessImportance);
+        let weight_task_1 = percent_of_remaining_time_1 + parseFloat(task1.perceivedImportance) + parseFloat(task1.businessImportance);
+        let weight_task_2 = percent_of_remaining_time_2 + parseFloat(task2.perceivedImportance) + parseFloat(task2.businessImportance);
 
         //console.log("weight_task_" + task1.taskId + ": " + weight_task_1);
         //console.log("weight_task_" + task2.taskId + ": " + weight_task_2);
@@ -97,11 +97,11 @@ class ListTasksComponent extends Component {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Task Id</th>
+                            {/* <th>Task Id</th> */}
                             <th>Task Name</th>
                             <th>Duration</th>
                             <th>% Complete</th>
-                            <th>Start Date</th>
+                            {/* <th>Start Date</th> */}
                             <th>Due Date</th>
                             <th>Perceived Importance</th>
                             <th>Business Importance</th>
@@ -114,13 +114,13 @@ class ListTasksComponent extends Component {
                             this.state.tasks.map(
                                 (task) => 
                                     <tr key={task.taskId}>
-                                        <td>{task.taskId}</td>
+                                        {/* <td>{task.taskId}</td> */}
                                         <td>{task.taskName}</td>
                                         <td>{task.durationHours} Hours</td>
                                         <td>{task.percentComplete}%</td>
-                                        <td>{moment(task.startDate).format('MMM Do YYYY h:mm a')}</td>
+                                        {/* <td>{moment(task.startDate).format('MMM Do YYYY h:mm a')}</td> */}
                                         <td>{moment(task.dueDate).format('MMM Do YYYY h:mm a')}</td>
-                                        <td>{task.managementImportance}</td>
+                                        <td>{task.perceivedImportance}</td>
                                         <td>{task.businessImportance}</td>
                                         <td><button className="btn btn-success" onClick={() => this.updateTaskClicked(task.taskId)}>Update</button></td>
                                         <td><button className="btn btn-warning" onClick={() => this.deleteTaskClicked(task.taskId)}>Delete</button></td>

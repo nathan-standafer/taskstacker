@@ -15,7 +15,7 @@ public class Task
 	private Integer percentComplete;
 	private Timestamp startDate;
 	private Timestamp dueDate;
-	private Integer managementImportance;
+	private Integer perceivedImportance; 
 	private Integer businessImportance;
 	
 	public Task()
@@ -24,14 +24,14 @@ public class Task
 	}
 	
 	public Task(String taskName, Float durationHours, Integer percentComplete, Timestamp startDate,
-			Timestamp dueDate, Integer managementImportance, Integer businessImportance) {
+			Timestamp dueDate, Integer perceivedImportance, Integer businessImportance) {
 		super();
 		this.taskName = taskName;
 		this.durationHours = durationHours;
 		this.percentComplete = percentComplete;
 		this.startDate = startDate;
 		this.dueDate = dueDate;
-		this.managementImportance = managementImportance;
+		this.perceivedImportance = perceivedImportance;
 		this.businessImportance = businessImportance;
 	}
 	public Long getTaskId() {
@@ -70,11 +70,11 @@ public class Task
 	public void setDueDate(Timestamp dueDate) {
 		this.dueDate = dueDate;
 	}
-	public Integer getManagementImportance() {
-		return managementImportance;
+	public Integer getPerceivedImportance() {
+		return perceivedImportance;
 	}
-	public void setManagementImportance(Integer managementImportance) {
-		this.managementImportance = managementImportance;
+	public void setPerceivedIImportance(Integer perceivedImportance) {
+		this.perceivedImportance = perceivedImportance;
 	}
 	public Integer getBusinessImportance() {
 		return businessImportance;
@@ -86,7 +86,7 @@ public class Task
 	public String toString() {
 		return "Task [taskId=" + taskId + ", taskName=" + taskName + ", durationHours=" + durationHours
 				+ ", percentComplete=" + percentComplete + ", startDate=" + startDate + ", dueDate=" + dueDate
-				+ ", managementImportance=" + managementImportance + ", businessImportance=" + businessImportance + "]";
+				+ ", perceivedImportance=" + perceivedImportance + ", businessImportance=" + businessImportance + "]";
 	}
 	
 

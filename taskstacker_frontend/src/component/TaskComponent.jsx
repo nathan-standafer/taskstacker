@@ -16,7 +16,7 @@ class TaskComponent extends Component {
 
         this.handleTaskNameChange = this.handleTaskNameChange.bind(this)
         this.handleDurationHoursChange = this.handleDurationHoursChange.bind(this)
-        this.handleManagementImportance = this.handleManagementImportance.bind(this)
+        this.handlePerceivedImportance = this.handlePerceivedImportance.bind(this)
         this.handleBusinessImportance = this.handleBusinessImportance.bind(this)
         this.handleStartDate = this.handleStartDate.bind(this)
         this.handleDueDate = this.handleDueDate.bind(this)
@@ -45,7 +45,7 @@ class TaskComponent extends Component {
                 percentComplete: response.data.percentComplete,
                 startDate: response.data.startDate,
                 dueDate: response.data.dueDate,
-                managementImportance: response.data.managementImportance,
+                perceivedImportance: response.data.perceivedImportance,
                 businessImportance: response.data.businessImportance,
 
                 task: response.data
@@ -60,12 +60,12 @@ class TaskComponent extends Component {
             percentComplete: values.percentComplete,
             startDate: values.startDate,
             dueDate: values.dueDate,
-            managementImportance: values.managementImportance,
+            perceivedImportance: values.perceivedImportance,
             businessImportance: values.businessImportance
         }
 
-        //console.log("submitting task to DB values: " + JSON.stringify(values));
-        //console.log("submitting task to DB task: " + JSON.stringify(task));
+        console.log("submitting task to DB values: " + JSON.stringify(values));
+        console.log("submitting task to DB task: " + JSON.stringify(task));
 
         if (this.state.id === -1) {
             TaskDataService.createTask(task)
@@ -94,10 +94,10 @@ class TaskComponent extends Component {
         this.setState({percentComplete})
     }
 
-    handleManagementImportance = (prio) => {
-        let managementImportance = this.state.managementImportance;
-        managementImportance = parseInt(prio)
-        this.setState({managementImportance})
+    handlePerceivedImportance = (prio) => {
+        let perceivedImportance = this.state.perceivedImportance;
+        perceivedImportance = parseInt(prio)
+        this.setState({perceivedImportance})
     }
 
     handleBusinessImportance = (prio) => {
@@ -137,8 +137,8 @@ class TaskComponent extends Component {
         else if (!validateInteger(values.percentComplete, 0, 100)) {
             errors.percentComplete = 'Enter a Number between 0 and 100 for Percent Complete'
         }
-        else if (!validateInteger(values.managementImportance, 0, 10)) {
-            errors.managementImportance = 'Enter an Integer between 0 and 10 for Perceived Importance'
+        else if (!validateInteger(values.perceivedImportance, 0, 10)) {
+            errors.perceivedImportance = 'Enter an Integer between 0 and 10 for Perceived Importance'
         }
         else if (!validateInteger(values.businessImportance, 0, 10)) {
             errors.businessImportance = 'Enter an Integer between 0 and 10 for Business Importance'
@@ -161,7 +161,7 @@ class TaskComponent extends Component {
                                         percentComplete: this.state.percentComplete,
                                         startDate: this.state.startDate, 
                                         dueDate: this.state.dueDate, 
-                                        managementImportance: this.state.managementImportance, 
+                                        perceivedImportance: this.state.perceivedImportance, 
                                         businessImportance: this.state.businessImportance}}
                         onSubmit={this.onSubmit}
                         validateOnChange={false}
@@ -202,10 +202,10 @@ class TaskComponent extends Component {
                                     <fieldset className="form-group">
                                         <label>Perceived Importance</label>
                                         <fieldset className="form-inline">
-                                            <Field className="form-control" type="text" name="managementImportance" />
-                                            <PrioDropdown onSelectPrio={this.handleManagementImportance}/>
+                                            <Field className="form-control" type="text" name="perceivedImportance" />
+                                            <PrioDropdown onSelectPrio={this.handlePerceivedImportance}/>
                                         </fieldset>
-                                        <ErrorMessage name="managementImportance" component="div" className="alert alert-warning" />
+                                        <ErrorMessage name="perceivedImportance" component="div" className="alert alert-warning" />
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Business Importance</label>

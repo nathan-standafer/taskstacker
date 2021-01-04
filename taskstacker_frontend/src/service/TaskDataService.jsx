@@ -21,10 +21,12 @@ class TaskDataService {
     }
 
     createTask(task){
+        console.log("creating task: " + JSON.stringify(task));
         return axios.put(`${Constants.TASK_API_URL}/tasks/${task.taskId}`, task);
     }
 
     updateTask(task){
+        console.log("updating task: " + JSON.stringify(task));
         return axios.post(`${Constants.TASK_API_URL}/tasks/`, task);
     }
 

@@ -11,7 +11,9 @@ class TaskDataService {
     retrieveAllTasks() {
         //http://localhost:8080/api/tasks/search/findTasksByPrio
         //TODO - Need a method to not return completed tasks.
-        var return_value = axios.get(`${Constants.TASK_API_URL}/tasks/search/findTasksByPrio`);
+        //var return_value = axios.get(`${Constants.TASK_API_URL}/tasks/search/findTasksByPrio`);
+        var return_value = axios.get(`${Constants.TASK_API_URL}/task_actions/find_all_not_complete`);
+        
         return return_value;
     }
     
@@ -34,6 +36,9 @@ class TaskDataService {
         return axios.delete(`${Constants.TASK_API_URL}/tasks/${taskId}`);
     }
 
+    completeTask(taskId){
+        return axios.get(`${Constants.TASK_API_URL}/task_actions/complete_task/${taskId}`);
+    }
 
 }
 

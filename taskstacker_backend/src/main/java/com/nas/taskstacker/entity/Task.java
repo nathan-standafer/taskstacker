@@ -17,6 +17,7 @@ public class Task
 	private Timestamp dueDate;
 	private Integer perceivedImportance; 
 	private Integer businessImportance;
+	private String complete;
 	
 	public Task()
 	{
@@ -82,11 +83,21 @@ public class Task
 	public void setBusinessImportance(Integer businessImportance) {
 		this.businessImportance = businessImportance;
 	}
+	
+	public String getComplete() {
+		return complete;
+	}
+
+	public void setComplete(String complete) {
+		this.complete = complete;
+	}
+
 	@Override
 	public String toString() {
 		return "Task [taskId=" + taskId + ", taskName=" + taskName + ", durationHours=" + durationHours
 				+ ", percentComplete=" + percentComplete + ", startDate=" + startDate + ", dueDate=" + dueDate
-				+ ", perceivedImportance=" + perceivedImportance + ", businessImportance=" + businessImportance + "]";
+				+ ", perceivedImportance=" + perceivedImportance + ", businessImportance=" + businessImportance
+				+ ", complete=" + complete + "]";
 	}
 	
 

@@ -16,6 +16,7 @@ class ListTasksComponent extends Component {
         this.addTaskClicked = this.addTaskClicked.bind(this)
         this.updateTaskClicked = this.updateTaskClicked.bind(this)
         this.deleteTaskClicked = this.deleteTaskClicked.bind(this)
+        this.completeTaskClicked = this.completeTaskClicked.bind(this)
     }
     
     componentDidMount() {
@@ -26,7 +27,9 @@ class ListTasksComponent extends Component {
         TaskDataService.retrieveAllTasks()
             .then(
                 response => {
-                    let loadedTasks = response.data._embedded.tasks;
+                    //let loadedTasks = response.data._embedded.tasks;  //works with default repo
+                    console.log(response.data)
+                    let loadedTasks = response.data;  //works with default repo
                     loadedTasks.sort(this.compareTasks)
                     this.setState({tasks: loadedTasks});
                 }
@@ -94,6 +97,14 @@ class ListTasksComponent extends Component {
             })
     }
 
+    completeTaskClicked(taskId) {
+        TaskDataService.completeTask(taskId)
+            .then(() => {
+                this.props.history.push('/tasks');
+                this.refreshTasks();
+            })
+    }
+
     addTaskClicked() {
         this.props.history.push(`/tasks/-1`)
     }
@@ -114,6 +125,7 @@ class ListTasksComponent extends Component {
                             <th>Perceived Importance</th>
                             <th>Business Importance</th>
                             <th>Update</th>
+                            <th>Complete</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -131,6 +143,7 @@ class ListTasksComponent extends Component {
                                         <td>{task.perceivedImportance}</td>
                                         <td>{task.businessImportance}</td>
                                         <td><button className="btn btn-success" onClick={() => this.updateTaskClicked(task.taskId)}>Update</button></td>
+                                        <td><button className="btn btn-success" onClick={() => this.completeTaskClicked(task.taskId)}>Complete</button></td>
                                         <td><button className="btn btn-warning" onClick={() => this.deleteTaskClicked(task.taskId)}>Delete</button></td>
                                     </tr>
                             )

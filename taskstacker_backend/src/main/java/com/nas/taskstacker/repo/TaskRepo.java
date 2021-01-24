@@ -15,8 +15,11 @@ public interface TaskRepo extends CrudRepository<Task, Long>
 {
 
 	//@Query("select t from Task t order by (t.managementImportance + t.businessImportance) desc" )
-	@Query("select t from Task t order by (current_date-dueDate) desc" )
-	public List<Task> findTasksByPrio();
+	@Query("select t from Task t" )
+	public Iterable<Task> findTasksByPrio();
 	
+	
+	@Query("select t from Task t where t.complete is null or t.complete != 'T'" )
+	public Iterable<Task> findIncompleteTasks();
 	
 }

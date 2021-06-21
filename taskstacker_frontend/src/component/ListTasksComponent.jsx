@@ -66,11 +66,11 @@ class ListTasksComponent extends Component {
         //console.log("weight_task_" + task1.taskId + ": " + weight_task_1);
         //console.log("weight_task_" + task2.taskId + ": " + weight_task_2);
 
-         if (task1.percentComplete == 100 && task2.percentComplete < 100) {
+         if (task1.percentComplete === 100 && task2.percentComplete < 100) {
              return 1;
          }
 
-         if (task1.percentComplete < 100 && task2.percentComplete == 100) {
+         if (task1.percentComplete < 100 && task2.percentComplete === 100) {
              return -1;
          }
 

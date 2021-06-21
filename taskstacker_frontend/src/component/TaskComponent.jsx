@@ -77,6 +77,7 @@ class TaskComponent extends Component {
     }
 
     handleTaskNameChange = (val) => {
+        console.log("handleTaskNameChange  onBlur: " + val)
         let taskName = this.state.taskName;
         taskName = val.target.value
         this.setState({taskName})
@@ -178,17 +179,17 @@ class TaskComponent extends Component {
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>TaskName</label>
-                                        <Field className="form-control" type="text" name="taskName" onChange={this.handleTaskNameChange}/>
+                                        <Field className="form-control" type="text" name="taskName" onBlur={this.handleTaskNameChange}/>
                                         <ErrorMessage name="taskName" component="div" className="alert alert-warning" />
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>durationHours</label>
-                                        <Field className="form-control" type="text" name="durationHours" onChange={this.handleDurationHoursChange}/>
+                                        <Field className="form-control" type="text" name="durationHours" onBlur={this.handleDurationHoursChange}/>
                                         <ErrorMessage name="durationHours" component="div" className="alert alert-warning" />
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Percent Complete</label>
-                                        <Field className="form-control" type="text" name="percentComplete" onChange={this.handlePercentCompleteChange}/>
+                                        <Field className="form-control" type="text" name="percentComplete" onBlur={this.handlePercentCompleteChange}/>
                                         <ErrorMessage name="percentComplete" component="div" className="alert alert-warning" />
                                     </fieldset>
                                     <fieldset className="form-group">

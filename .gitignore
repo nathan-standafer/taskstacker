@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### node stuff
+taskstacker_frontend/node_modules
+taskstacker_frontend/.eslintcache
